@@ -3,6 +3,7 @@ import DataTable from "../components/DataTable.jsx";
 import Modal from "../components/Modal.jsx";
 import { FormField, inputStyle } from "../components/FormField.jsx";
 import { load, save, uid } from "../utils/storage.js";
+import StatusBadge from "../components/StatusBadge.jsx";
 
 const STORAGE_KEY = "equipment";
 
@@ -129,21 +130,20 @@ export default function Equipment() {
       </div>
 
       <DataTable
-        columns={[
-          { key: "equipment_name", label: "ชื่ออุปกรณ์" },
-          { key: "category", label: "หมวดหมู่" },
-          { key: "quantity", label: "จำนวน" },
-          { key: "status", label: "สถานะ", render: (r) => statusLabel[r.status] || r.status },
-        ]}
-        rows={filtered}
-        renderActions={(r) => (
-          <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={() => openEdit(r)}>Edit</button>
-            <button onClick={() => onDelete(r.id)}>Delete</button>
-          </div>
-        )}
-      />
-
+      columns={[
+        { key: "equipment_name", label: "ชื่ออุปกรณ์" },
+        { key: "category", label: "หมวดหมู่" },
+        { key: "quantity", label: "จำนวน" },
+        { key: "status", label: "สถานะ", render: (r) => <StatusBadge value={r.status} /> },
+      ]}
+      rows={filtered}
+      renderActions={(r) => (
+        <div style={{ display: "flex", gap: 8 }}>
+          <button onClick={() => openEdit(r)}>Edit</button>
+          <button onClick={() => onDelete(r.id)}>Delete</button>
+        </div>
+      )}
+    />
       <Modal
         open={open}
         title={mode === "create" ? "Add Equipment" : "Edit Equipment"}
